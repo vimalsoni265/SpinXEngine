@@ -1,6 +1,56 @@
 @SpinXEngine.Api_HostAddress = http://localhost:5114
 
-GET {{SpinXEngine.Api_HostAddress}}/weatherforecast/
+# Get all players
+GET {{SpinXEngine.Api_HostAddress}}/api/v1/player
 Accept: application/json
+
+###
+
+# Create a new player
+POST {{SpinXEngine.Api_HostAddress}}/api/v1/player/create
+Content-Type: application/json
+
+{
+  "amount": 1000.00
+}
+
+###
+
+# Update player balance
+POST {{SpinXEngine.Api_HostAddress}}/api/v1/player/credit
+Content-Type: application/json
+
+{
+  "playerId": "64a5f8e1b7f6d14e3c8b4567",
+  "amount": 50.00
+}
+
+###
+
+# Make a spin
+POST {{SpinXEngine.Api_HostAddress}}/api/v1/player/spin
+Content-Type: application/json
+
+{
+  "playerId": "64a5f8e1b7f6d14e3c8b4567",
+  "betAmount": 10.00
+}
+
+###
+
+# Get current game settings
+GET {{SpinXEngine.Api_HostAddress}}/api/v1/config
+Accept: application/json
+
+###
+
+# Update game settings
+PUT {{SpinXEngine.Api_HostAddress}}/api/v1/config
+Content-Type: application/json
+
+{
+  "reelRows": 4,
+  "reelColumns": 6
+}
 
 ###

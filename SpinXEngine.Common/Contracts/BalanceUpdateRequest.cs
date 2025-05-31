@@ -1,18 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SpinXEngine.Api.WebModels.Player
+namespace SpinXEngine.Common.Contracts
 {
     /// <summary>
     /// Request model for balance updates
     /// </summary>
     public record BalanceUpdateRequest
-    
+
     (
         [Required]
-        double Amount,
+        string playerId,
         [Required]
-        string PlayerId
+        decimal amount
     )
-    {}
-
+    { }
 }
