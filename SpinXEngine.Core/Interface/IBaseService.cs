@@ -1,5 +1,9 @@
 ﻿namespace SpinXEngine.Core.Interface
 {
+    /// <summary>
+    ///  Defines a contract for a service that provides operations for 
+    ///  managing entities of type <typeparamref name="T"/>.
+    /// </summary>
     public interface IBaseService<T>
     {
         /// <summary>

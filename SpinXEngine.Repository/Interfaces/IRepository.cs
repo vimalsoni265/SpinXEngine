@@ -8,14 +8,6 @@ namespace SpinXEngine.Repository.Interfaces
     /// <typeparam name="T">The Repository Model class for which Database operations to be carried out</typeparam>
     public interface IRepository<T> where T : class
     {
-        //Task<T> GetByIdAsync(string id);
-        //Task<IEnumerable<T>> FindAllAsync();
-        //Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
-        //Task AddAsync(T entity);
-        //Task UpdateAsync(string id, T entity);
-        //Task DeleteAsync(string id);
-
-
         /// <summary>
         /// Function to get all records of type <typeparamref name="T"/> asynchronously.
         /// </summary>

@@ -1,7 +1,7 @@
 ﻿namespace SpinXEngine.Core
 {
     /// <summary>
-    /// The Errors
+    /// Represents the status of a service operation.
     /// </summary>
     public enum ServiceStatus
     {

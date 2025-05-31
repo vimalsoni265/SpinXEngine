@@ -18,6 +18,8 @@ namespace SpinXEngine.Core
     [ExcludeFromCodeCoverage(Justification = "All the methods of this class are void and static methods")]
     public static class CoreServices
     {
+        #region Public Methods
+
         /// <summary>
         /// Function to Register DI services
         /// </summary>
@@ -29,7 +31,9 @@ namespace SpinXEngine.Core
 
             // Register core services
             services.AddTransient<SpinGame>();
-            services .AddScoped<IPlayerService, PlayerService>();
-        }
+            services.AddScoped<IPlayerService, PlayerService>();
+        } 
+
+        #endregion
     }
 }

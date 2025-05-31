@@ -5,9 +5,14 @@ using SpinXEngine.Repository.Context;
 using SpinXEngine.Repository.Implementation;
 using SpinXEngine.Repository.Interfaces;
 using SpinXEngine.Repository.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SpinXEngine.Repository
 {
+    /// <summary>
+    /// Provides methods for configuring dependency injection services in an application.
+    /// </summary>
+    [ExcludeFromCodeCoverage(Justification = "All the methods of this class are void and static methods")]
     public static class RepositoryServices
     {
         /// <summary>

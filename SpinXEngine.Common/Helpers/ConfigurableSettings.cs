@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SpinXEngine.Common.Helpers
 {
@@ -8,6 +9,7 @@ namespace SpinXEngine.Common.Helpers
     /// <remarks>This class is designed to store and retrieve application-wide settings that can be configured
     /// at runtime or during initialization. It is intended to be used as a static utility for accessing  settings
     /// without requiring instance creation.</remarks>
+    [ExcludeFromCodeCoverage(Justification = "All the methods of this class are void and static methods")]
     public static class ConfigurableSettings
     {
         private static readonly IConfigurationRoot m_configurationRoot;
@@ -31,7 +33,6 @@ namespace SpinXEngine.Common.Helpers
             GameSettings = m_configurationRoot.GetSection("GameSettings");
         }
     }
-
 
     public class MongoDbSettings
     {

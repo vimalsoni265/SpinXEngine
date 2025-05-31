@@ -7,9 +7,13 @@ namespace SpinXEngine.Core.GameDesigner
     /// </summary>
     public class SpinGame
     {
+        #region Private Members
         private readonly List<IWinCalculationStrategy> m_winStrategies = [];
         private readonly Random m_random = new();
         private int[,]? m_currentMatrix;
+        #endregion
+
+        #region Constructor
 
         /// <summary>
         /// Creates a new GameDesigner with default win calculation strategies
@@ -21,24 +25,18 @@ namespace SpinXEngine.Core.GameDesigner
             RegisterWinStrategy(new ZigzagWinStrategy());
         }
 
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
         /// Registers a new win calculation strategy
         /// </summary>
         /// <param name="strategy">The strategy to register</param>
         public void RegisterWinStrategy(IWinCalculationStrategy strategy)
         {
-            if (strategy == null)
-                throw new ArgumentNullException(nameof(strategy));
-
+            ArgumentNullException.ThrowIfNull(strategy);
             m_winStrategies.Add(strategy);
-        }
-
-        /// <summary>
-        /// Clears all registered win calculation strategies
-        /// </summary>
-        public void ClearWinStrategies()
-        {
-            m_winStrategies.Clear();
         }
 
         /// <summary>
@@ -108,7 +106,7 @@ namespace SpinXEngine.Core.GameDesigner
         /// </summary>
         /// <param name="bet">The bet amount</param>
         /// <returns>A dictionary containing the win amount for each strategy</returns>
-        public Dictionary<string, decimal> SpinWithDetailedWin(decimal bet)
+        public Dictionary<string, decimal> SpinWithDetails(decimal bet)
         {
             if (m_currentMatrix == null)
                 throw new InvalidOperationException("No symbols have been generated. Call DesignReelSymbols first.");
@@ -166,6 +164,8 @@ namespace SpinXEngine.Core.GameDesigner
             }
             sb.Append(']');
             return sb.ToString();
-        }
+        } 
+
+        #endregion
     }
 }

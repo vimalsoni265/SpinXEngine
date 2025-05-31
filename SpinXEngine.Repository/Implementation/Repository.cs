@@ -10,14 +10,24 @@ namespace SpinXEngine.Repository.Implementation
     /// </summary>
     public class Repository<T> : IRepository<T> where T : class
     {
+        #region Private Members
         protected readonly SpinXEngineDbContext m_dbContext;
         protected readonly IMongoCollection<T> m_collection;
+        #endregion
 
+        #region Constructor
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="context"></param>
         public Repository(SpinXEngineDbContext context)
         {
             m_dbContext = context;
             m_collection = m_dbContext.GetCollection<T>();
-        }
+        } 
+
+        #endregion
 
         #region Implement IRepository
         public virtual async Task<T> AddAsync(T entity)

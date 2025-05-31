@@ -6,8 +6,17 @@
     /// </summary>
     public class ZigzagWinStrategy : IWinCalculationStrategy
     {
-        public string Name => "Zigzag Win";
+        #region Private Members
+        private const string m_name = "Zigzag Win";
+        #endregion
 
+        #region Propperties
+
+        public string Name => m_name;
+
+        #endregion
+
+        #region Public Methods
         public int Calculate(int[,] matrix)
         {
             int rows = matrix.GetLength(0);
@@ -79,6 +88,8 @@
             }
 
             return totalWin;
-        }
+        } 
+        
+        #endregion
     }
 }

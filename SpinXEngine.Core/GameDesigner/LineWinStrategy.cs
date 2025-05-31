@@ -6,8 +6,18 @@
     /// </summary>
     public class LineWinStrategy : IWinCalculationStrategy
     {
+        #region Private Members
+        private const string m_name = "Line Win";
+        #endregion
+
+        #region Properties
+
         ///<inheritdoc/> 
-        public string Name => "Line Win Calculation";
+        public string Name => m_name;
+
+        #endregion
+
+        #region Public Methods
 
         ///<summary> 
         ///<inheritdoc/> <see cref="LineWinStrategy"/>
@@ -41,6 +51,8 @@
             }
 
             return totalWin;
-        }
+        } 
+
+        #endregion
     }
 }

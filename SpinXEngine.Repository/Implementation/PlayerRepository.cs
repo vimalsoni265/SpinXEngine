@@ -5,12 +5,25 @@ using SpinXEngine.Repository.Models;
 
 namespace SpinXEngine.Repository.Implementation
 {
+    /// <summary>
+    /// Implementation of the <see cref="IPlayerRepository"/> for managing player data.
+    /// </summary>
     public class PlayerRepository : Repository<Player>, IPlayerRepository
     {
-        public PlayerRepository(SpinXEngineDbContext context) 
+        #region Constructor
+
+        /// <summary>
+        /// Constructor for PlayerRepository
+        /// </summary>
+        /// <param name="context"></param>
+        public PlayerRepository(SpinXEngineDbContext context)
             : base(context)
         {
         }
+
+        #endregion
+
+        #region Implement IPlayerRepository Methods
 
         /// <inheritdoc/>
         public async Task<Player> UpdateBalance(string playerId, decimal amount)
@@ -33,6 +46,8 @@ namespace SpinXEngine.Repository.Implementation
             {
                 Balance = defaultBalance
             });
-        }
+        } 
+
+        #endregion
     }
 }

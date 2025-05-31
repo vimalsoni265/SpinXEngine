@@ -3,13 +3,16 @@ using SpinXEngine.Repository.Models;
 
 namespace SpinXEngine.Core.Interface
 {
+    /// <summary>
+    /// Defines operations for managing player accounts, including balance updates, player creation, and bet processing.
+    /// </summary>
     public interface IPlayerService : IBaseService<Player>
     {
         /// <summary>
         /// Credits the specified amount to the player's balance.
         /// </summary>
         /// <param name="amount">The amount needs to be credited.</param>
-        /// <param name="playerId">The ID for the existng player</param>
+        /// <param name="playerId">The ID for the existing player</param>
         Task<ServiceResult<BalanceUpdateResponse>> CreditBalanceAsync(string playerId, decimal amount);
 
         /// <summary>

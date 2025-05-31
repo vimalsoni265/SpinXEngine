@@ -5,7 +5,6 @@ using SpinXEngine.Core.GameDesigner;
 using SpinXEngine.Core.Interface;
 using SpinXEngine.Repository.Interfaces;
 using SpinXEngine.Repository.Models;
-using System.Drawing.Printing;
 
 namespace SpinXEngine.Core.Implementation
 {
@@ -71,6 +70,8 @@ namespace SpinXEngine.Core.Implementation
 
         #endregion
 
+        #region Public Methods
+
         /// <inheritdoc/>
         public async Task<ServiceResult<BalanceUpdateResponse>> CreditBalanceAsync(string playerId, decimal amount)
         {
@@ -90,11 +91,11 @@ namespace SpinXEngine.Core.Implementation
             {
                 // 3. Credit the balance (assumes this method returns updated player)
                 // Ensure amount is rounded to 2 decimal places
-                amount = Math.Round(player.Balance + amount, 2); 
+                amount = Math.Round(player.Balance + amount, 2);
                 var updatedPlayer = await m_playerRepository.UpdateBalance(playerId, amount);
 
                 // 4. Create and return response
-                return ServiceResult<BalanceUpdateResponse>.Ok(new BalanceUpdateResponse { NewBalance = updatedPlayer.Balance});
+                return ServiceResult<BalanceUpdateResponse>.Ok(new BalanceUpdateResponse { NewBalance = updatedPlayer.Balance });
             }
             catch (Exception ex)
             {
@@ -205,6 +206,8 @@ namespace SpinXEngine.Core.Implementation
                 // Handle unexpected errors
                 return ServiceResult<SpinResponse>.ServerError("An error occurred while processing the spin.");
             }
-        }
+        } 
+       
+        #endregion
     }
 }
