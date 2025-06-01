@@ -1,7 +1,8 @@
+using log4net;
 using log4net.Config;
 using SpinXEngine.Api.Extensions;
 using SpinXEngine.Core;
-using System.Xml;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,7 @@ app.MapControllers();
 app.Run();
 
 
+
 /// <summary>
 /// Function to Configure DI for Services
 /// </summary>
@@ -53,50 +55,37 @@ static void ConfigureServices(IServiceCollection services)
 static void ConfigureLog4Net(WebApplicationBuilder builder)
 {
     // 1. Get log directory path from appsettings.json (with fallback)
-    var logDir = builder.Configuration["Logging:Log4Net:LogDirectory"] ?? "logs";
-    var applicationName = builder.Configuration["Application"] ?? "SpinXEngine";
-    logDir = Path.Combine(logDir, applicationName);
+    var logDir = builder.Configuration["Logging:Log4Net:LogDirectory"];
 
-    // 2. Ensure the log directory exists with proper error handling
-    try
+    // 2. Ensure the log directory exists.
+    if (!Directory.Exists(logDir))
     {
-        if (!Directory.Exists(logDir))
-        {
-            Directory.CreateDirectory(logDir);
-        }
-    }
-    catch (Exception ex)
-    {
-        // Fallback to a directory we know we can write to
-        Console.WriteLine($"Failed to create log directory: {ex.Message}");
-        logDir = Path.Combine(Path.GetTempPath(), "SpinXEngine", "logs");
         Directory.CreateDirectory(logDir);
     }
 
-    // 3. Load and modify log4net.config before applying
+    // 3. Load and modify log4net.config
     var log4NetConfigPath = Path.Combine(Directory.GetCurrentDirectory(), "log4net.config");
-    XmlDocument log4netConfig = new XmlDocument();
-    log4netConfig.Load(File.OpenRead(log4NetConfigPath));
-
-    // 4. Replace {LOG_DIR} placeholder in <file> element(s)
-    var fileNodes = log4netConfig.SelectNodes("//file");
-    foreach (XmlNode node in fileNodes!)
+    if (!File.Exists(log4NetConfigPath))
     {
-        if (node.Attributes?["value"] != null)
-        {
-            node.Attributes["value"].Value = Path.Combine(logDir, "log-");
-        }
+        throw new FileNotFoundException("log4net.config not found", log4NetConfigPath);
     }
 
-    // 5. Use in-memory stream for the updated config
-    using (var ms = new MemoryStream() { Position = 0 })
-    {
-        log4netConfig.Save(ms);
-        var logRepository = log4net.LogManager.GetRepository(System.Reflection.Assembly.GetEntryAssembly());
-        XmlConfigurator.Configure(logRepository, ms);
-    }
+    // 4. Create a modified copy of the config
+    var configContent = File.ReadAllText(log4NetConfigPath);
+    configContent = configContent.Replace("{LOG_DIR}", logDir);
 
-    // 6. Register log4net as a provider (so ILogger<T> works everywhere)
+    var tempConfigPath = Path.Combine(Path.GetTempPath(), "log4net_modified.config");
+    File.WriteAllText(tempConfigPath, configContent);
+
+    // 5. Configure the logging system
+    var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+    XmlConfigurator.Configure(logRepository, new FileInfo(tempConfigPath));
+
+    // 6. Register log4net with .NET Core logging
     builder.Logging.ClearProviders();
-    builder.Logging.AddLog4Net(log4NetConfigPath);
+    builder.Logging.AddLog4Net(tempConfigPath);
+
+    // Add this after logging configuration
+    var startupLogger = LogManager.GetLogger(typeof(Program));
+    startupLogger.Info("Application startup - Logging system initialized");
 }
