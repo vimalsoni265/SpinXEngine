@@ -49,7 +49,7 @@ Follow these steps to set up the required MongoDB database:
 
 Update your application settings in the `appsettings.json` file to include the MongoDB connection string:
 ```json
-{ "ConnectionString": { "MongoDB": "mongodb://localhost:27017/spinxengine" }, "GameSettings": { // Your game settings here } }
+{ "ConnectionString": { "MongoDB": "mongodb://localhost:27017/spinxengine" }, "GameSettings": { "ReelRows": 3, "ReelColumns": 5 }}
 ```
 
 ## Running the Application
