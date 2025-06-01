@@ -34,7 +34,7 @@ Follow these steps to set up the required MongoDB database:
 
 5. **Insert Initial Data**
    - Insert the following documents into the `players` collection:
-````json
+```json
 {
   "_id": "player1",
   "balance": { "$numberDecimal": "1000" }
@@ -50,7 +50,7 @@ Follow these steps to set up the required MongoDB database:
 Update your application settings in the `appsettings.json` file to include the MongoDB connection string:
 ```json
 { "ConnectionString": { "MongoDB": "mongodb://localhost:27017/spinxengine" }, "GameSettings": { // Your game settings here } }
-``
+```
 
 ## Running the Application
 
