@@ -47,7 +47,7 @@ Follow these steps to set up the required MongoDB database:
 
 ## Configuration
 
-Update your application settings in the `appsettings.json` file to include the MongoDB connection string:
+Update your application settings in the `appsettings.json` file to include the MongoDB connection string, GameSettings:
 ```json
 { "ConnectionString": { "MongoDB": "mongodb://localhost:27017/spinxengine" }, "GameSettings": { "ReelRows": 3, "ReelColumns": 5 }}
 ```
@@ -56,7 +56,7 @@ Update your application settings in the `appsettings.json` file to include the M
 
 1. Ensure MongoDB is running
 2. Build the solution
-3. Run the SpinXEngine.Api project
+3. Run the SpinXEngine.Api project (It should launch the Swagger UI)
 
 ## Development
 
