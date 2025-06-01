@@ -10,8 +10,6 @@ namespace SpinXEngine.Api.Controllers.V1
     public class ConfigController : ControllerBase
     {
         #region Private Members
-
-        private readonly IOptions<GameSetting> m_gameSettings;
         private readonly IOptionsMonitor<GameSetting> m_gameSettingsMonitor;
         private readonly ILogger<ConfigController> m_logger;
 
@@ -26,11 +24,9 @@ namespace SpinXEngine.Api.Controllers.V1
         /// <param name="gameSettingsMonitor"></param>
         /// <param name="logger"></param>
         public ConfigController(
-            IOptions<GameSetting> gameSettings,
             IOptionsMonitor<GameSetting> gameSettingsMonitor,
             ILogger<ConfigController> logger)
         {
-            m_gameSettings = gameSettings;
             m_gameSettingsMonitor = gameSettingsMonitor;
             m_logger = logger;
         }
@@ -42,7 +38,8 @@ namespace SpinXEngine.Api.Controllers.V1
         [HttpGet]
         public ActionResult<ApiResponse<GameSetting>> GetGameSettings()
         {
-            return Ok(ApiResponse<GameSetting>.SuccessResponse(m_gameSettings.Value));
+            // Use m_gameSettingsMonitor.CurrentValue instead of m_gameSettings.Value
+            return Ok(ApiResponse<GameSetting>.SuccessResponse(m_gameSettingsMonitor.CurrentValue));
         }
 
         [HttpPut]
@@ -50,13 +47,20 @@ namespace SpinXEngine.Api.Controllers.V1
         {
             try
             {
+                // Basic validation
+                if (settings.ReelRows <= 0 || settings.ReelColumns <= 0)
+                {
+                    return BadRequest(ApiResponse<GameSetting>.FailureResponse(
+                        "Reel rows and columns must be greater than zero"));
+                }
+
                 m_logger.LogInformation("Updating game settings: Rows={Rows}, Columns={Columns}",
                     settings.ReelRows, settings.ReelColumns);
 
-                // Use reflection to update the in-memory settings
+                // Update the settings directly - no reflection needed
                 var currentSettings = m_gameSettingsMonitor.CurrentValue;
-                typeof(GameSetting).GetProperty(nameof(GameSetting.ReelRows))?.SetValue(currentSettings, settings.ReelRows);
-                typeof(GameSetting).GetProperty(nameof(GameSetting.ReelColumns))?.SetValue(currentSettings, settings.ReelColumns);
+                currentSettings.ReelRows = settings.ReelRows;
+                currentSettings.ReelColumns = settings.ReelColumns;
 
                 return Ok(ApiResponse<GameSetting>.SuccessResponse(currentSettings));
             }

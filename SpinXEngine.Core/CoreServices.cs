@@ -32,7 +32,7 @@ namespace SpinXEngine.Core
             // Register core services
             services.AddTransient<SpinGame>();
             services.AddScoped<IPlayerService, PlayerService>();
-        } 
+        }
 
         #endregion
     }

@@ -3,9 +3,52 @@
 namespace SpinXEngine.Core.GameDesigner
 {
     /// <summary>
+    /// Defines the contract for a spin-based game.
+    /// </summary>
+    public interface ISpinGame
+    {
+        /// <summary>
+        /// Generates a random symbol matrix for the reels
+        /// </summary>
+        /// <param name="rows">Number of rows</param>
+        /// <param name="cols">Number of columns</param>
+        /// <returns>A matrix of symbols</returns>
+        int[,] GenerateReelSymbols(int rows, int cols);
+
+        /// <summary>
+        /// Spins the reels and calculates the winnings based on the current reel matrix and the specified bet amount.
+        /// </summary>
+        /// <param name="bet">The amount of money wagered on the spin. Must be a positive value.</param>
+        /// <returns>The total winnings as a decimal value. Returns 0 if no winnings are achieved.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if the reel symbols have not been generated. Ensure that <see cref="GenerateReelSymbols"/> is called
+        /// before invoking this method.</exception>
+        decimal Spin(decimal bet);
+
+        /// <summary>
+        /// Converts a multidimensional array to a JSON-like string representation
+        /// </summary>
+        /// <param name="matrix">The matrix to convert</param>
+        /// <returns>A string representation of the matrix</returns>
+        string ConvertMatrixToString();
+
+        /// <summary>
+        /// Registers a new win calculation strategy
+        /// </summary>
+        /// <param name="strategy">The strategy to register</param>
+        void RegisterWinStrategy(IWinCalculationStrategy strategy);
+
+        /// <summary>
+        /// Spins the reels and calculates detailed win amounts based on the current reel matrix and the specified bet amount.
+        /// </summary>
+        /// <param name="bet">The bet amount</param>
+        /// <returns>A dictionary containing the win amount for each strategy</returns>
+        Dictionary<string, decimal> SpinWithDetails(decimal bet);
+    }
+
+    /// <summary>
     /// Provides functionality for designing and calculating wins for slot games
     /// </summary>
-    public class SpinGame
+    public class SpinGame : ISpinGame
     {
         #region Private Members
         private readonly List<IWinCalculationStrategy> m_winStrategies = [];
@@ -29,22 +72,14 @@ namespace SpinXEngine.Core.GameDesigner
 
         #region Public Methods
 
-        /// <summary>
-        /// Registers a new win calculation strategy
-        /// </summary>
-        /// <param name="strategy">The strategy to register</param>
+        /// <inheritdoc/>
         public void RegisterWinStrategy(IWinCalculationStrategy strategy)
         {
             ArgumentNullException.ThrowIfNull(strategy);
             m_winStrategies.Add(strategy);
         }
 
-        /// <summary>
-        /// Generates a random symbol matrix for the reels
-        /// </summary>
-        /// <param name="rows">Number of rows</param>
-        /// <param name="cols">Number of columns</param>
-        /// <returns>A matrix of symbols</returns>
+        /// <inheritdoc/>
         public int[,] GenerateReelSymbols(int rows, int cols)
         {
             if (rows <= 0)
@@ -66,13 +101,7 @@ namespace SpinXEngine.Core.GameDesigner
             return m_currentMatrix;
         }
 
-        /// <summary>
-        /// Spins the reels and calculates the winnings based on the current reel matrix and the specified bet amount.
-        /// </summary>
-        /// <param name="bet">The amount of money wagered on the spin. Must be a positive value.</param>
-        /// <returns>The total winnings as a decimal value. Returns 0 if no winnings are achieved.</returns>
-        /// <exception cref="InvalidOperationException">Thrown if the reel symbols have not been generated. Ensure that <see cref="GenerateReelSymbols"/> is called
-        /// before invoking this method.</exception>
+        /// <inheritdoc/>
         public decimal Spin(decimal bet)
         {
             if (m_currentMatrix == null)
@@ -101,11 +130,7 @@ namespace SpinXEngine.Core.GameDesigner
             return totalWinMultiplier * bet;
         }
 
-        /// <summary>
-        /// Calculates detailed win amounts using the current matrix
-        /// </summary>
-        /// <param name="bet">The bet amount</param>
-        /// <returns>A dictionary containing the win amount for each strategy</returns>
+        /// <inheritdoc/>
         public Dictionary<string, decimal> SpinWithDetails(decimal bet)
         {
             if (m_currentMatrix == null)
@@ -131,11 +156,7 @@ namespace SpinXEngine.Core.GameDesigner
             return result;
         }
 
-        /// <summary>
-        /// Converts a multidimensional array to a JSON-like string representation
-        /// </summary>
-        /// <param name="matrix">The matrix to convert</param>
-        /// <returns>A string representation of the matrix</returns>
+        /// <inheritdoc/>
         public string ConvertMatrixToString()
         {
             if (m_currentMatrix == null)

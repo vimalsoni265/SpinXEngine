@@ -1,4 +1,6 @@
-﻿namespace SpinXEngine.Core
+﻿using System.Reflection;
+
+namespace SpinXEngine.Core
 {
     /// <summary>
     /// Represents the result of a service operation, encapsulating the status, optional data, and an optional message.
@@ -92,8 +94,7 @@
         /// </summary>
         /// <param name="message">A descriptive message providing details about the server error.</param>
         public static ServiceResult<T> ServerError(string message) =>
-            new(ServiceStatus.ServerError, default, message); 
-
+            new(ServiceStatus.ServerError, default, message);
         #endregion
     }
 }

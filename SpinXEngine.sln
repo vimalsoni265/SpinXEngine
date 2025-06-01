@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpinXEngine.Common", "SpinX
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpinXEngine.Core", "SpinXEngine.Core\SpinXEngine.Core.csproj", "{8D15763C-615D-4D48-8329-745B36E9E3A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpinXEngine.Api.Test", "SpinXEngine.Api.Test\SpinXEngine.Api.Test.csproj", "{C810779D-9223-4CF4-86DE-278CD58FDA07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{8D15763C-615D-4D48-8329-745B36E9E3A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D15763C-615D-4D48-8329-745B36E9E3A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D15763C-615D-4D48-8329-745B36E9E3A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C810779D-9223-4CF4-86DE-278CD58FDA07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C810779D-9223-4CF4-86DE-278CD58FDA07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C810779D-9223-4CF4-86DE-278CD58FDA07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C810779D-9223-4CF4-86DE-278CD58FDA07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

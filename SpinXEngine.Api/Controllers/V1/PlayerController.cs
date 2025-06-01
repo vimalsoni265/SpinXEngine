@@ -52,7 +52,7 @@ namespace SpinXEngine.Api.Controllers.V1
         /// <param name="request">The balance update request containing the amount to add</param>
         /// <returns>The updated player balance information</returns>
         [HttpPost("credit")]
-        public async Task<ActionResult<ApiResponse<BalanceUpdateResponse>>> UpdateBalance([FromBody] BalanceUpdateRequest request)
+        public async Task<ActionResult<ApiResponse<BalanceUpdateResponse>>> CreditBalance([FromBody] BalanceUpdateRequest request)
         {
             m_logger.LogInformation("UpdateBalance called with request: {@Request}", request);
 

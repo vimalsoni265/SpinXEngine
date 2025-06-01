@@ -1,4 +1,5 @@
 using log4net.Config;
+using SpinXEngine.Api.Extensions;
 using SpinXEngine.Core;
 using System.Xml;
 
@@ -31,6 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseGlobalExceptionHandler();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

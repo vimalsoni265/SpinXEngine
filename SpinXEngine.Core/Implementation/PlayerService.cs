@@ -14,7 +14,6 @@ namespace SpinXEngine.Core.Implementation
     public class PlayerService : IPlayerService
     {
         #region Private Members
-
         /// <summary>
         /// Represents the repository used to manage player data.
         /// </summary>
@@ -28,13 +27,12 @@ namespace SpinXEngine.Core.Implementation
         /// <summary>
         /// Factory function to create new SpinGame instances
         /// </summary>
-        private readonly Func<SpinGame> m_spinGameFactory;
+        private readonly Func<ISpinGame> m_spinGameFactory;
 
         /// <summary>
-        /// Represents the game settings used to configure various aspects of the game.
+        /// Provides access to the current game settings configuration
         /// </summary>
-        private readonly GameSetting m_gameSettings;
-
+        private readonly IOptionsMonitor<GameSetting> m_gameSettings;
         #endregion
 
         #region Constructor
@@ -45,17 +43,17 @@ namespace SpinXEngine.Core.Implementation
         /// <param name="logger"></param>
         /// <param name="playerRepository"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public PlayerService(IPlayerRepository playerRepository, ILogger<PlayerService> logger, Func<SpinGame> spinGameFactory,
-            IOptions<GameSetting> gameSettings)
+        public PlayerService(IPlayerRepository playerRepository, ILogger<PlayerService> logger, Func<ISpinGame> spinGameFactory,
+            IOptionsMonitor<GameSetting> gameSettings)
         {
             m_playerRepository = playerRepository ??
-                throw new ArgumentNullException(nameof(IPlayerRepository));
+                throw new ArgumentNullException(nameof(playerRepository));
             m_logger = logger ??
-                throw new ArgumentNullException(nameof(ILogger), "Logger cannot be null.");
+                throw new ArgumentNullException(nameof(logger), "Logger cannot be null.");
             m_spinGameFactory = spinGameFactory ??
                 throw new ArgumentNullException(nameof(spinGameFactory));
-            m_gameSettings = gameSettings?.Value ??
-                throw new ArgumentNullException(nameof(GameSetting));
+            m_gameSettings = gameSettings ??
+                throw new ArgumentNullException(nameof(gameSettings));
         }
 
         /// <summary>
@@ -63,7 +61,7 @@ namespace SpinXEngine.Core.Implementation
         /// </summary>
         /// <param name="playerRepository">Repository for player data</param>
         /// <param name="logger">Logger instance</param>
-        public PlayerService(IPlayerRepository playerRepository, ILogger<PlayerService> logger, IOptions<GameSetting> gameSettings)
+        public PlayerService(IPlayerRepository playerRepository, ILogger<PlayerService> logger, IOptionsMonitor<GameSetting> gameSettings)
             : this(playerRepository, logger, () => new SpinGame(), gameSettings)
         {
         }
@@ -177,7 +175,8 @@ namespace SpinXEngine.Core.Implementation
                 await m_playerRepository.UpdateBalance(playerId, newBalance);
 
                 // 5. Generate the reel symbols matrix (3 rows, 5 columns)
-                var reelSymbols = spinGame.GenerateReelSymbols(m_gameSettings.ReelRows, m_gameSettings.ReelColumns);
+                var currentSettings = m_gameSettings.CurrentValue;
+                var reelSymbols = spinGame.GenerateReelSymbols(currentSettings.ReelRows, currentSettings.ReelColumns);
 
                 // 6. Calculate win amount based on the reel symbols
                 decimal winAmount = spinGame.Spin(betAmount);
