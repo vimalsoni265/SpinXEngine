@@ -72,54 +72,5 @@ Run the test projects to verify the functionality:
 
 
 ## Flow Diagram
-[Start]
-   │
-   ▼
-[Insert Bills/Ticket]
-   │
-   ▼
-[Balance Credited to Machine]
-   │
-   ▼
-[Spin Button Pressed?]
-   │
-   │────No───► [Idle, Wait]
-   │
-   ▼
-[Deduct Bet from Balance]
-   │
-   ▼
-[Spin Reels/Generate Symbols]
-   │
-   ▼
-[Check Win Lines / Calculate Win]
-   │
-   ▼
-[Add Win (if any) to Balance]
-   │
-   ▼
-[Display Result]
-   │
-   ▼
-[Balance > 0?]
-   │
-   │────No───► [Cash Out Available?]──No──►[End]
-   │                         │
-   │                         ▼
-   │                      [Print Ticket / Dispense Cash]
-   │                         │
-   │                         ▼
-   │                      [End]
-   │
-   ▼
-[Player Spins Again?]
-   │────No───► [Player Presses Cash Out]
-   │                         │
-   │                         ▼
-   │                [Print Ticket / Dispense Cash]
-   │                         │
-   │                         ▼
-   │                      [End]
-   │
-   ▼
-[Repeat Spin Process (from button pressed)]
+![image](https://github.com/user-attachments/assets/4ef47595-425a-4bf2-aefd-0401f9e7bcc2)
+
