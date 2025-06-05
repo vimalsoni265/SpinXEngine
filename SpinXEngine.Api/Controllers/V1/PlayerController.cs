@@ -77,6 +77,9 @@ namespace SpinXEngine.Api.Controllers.V1
         {
             m_logger.LogInformation($"CreatePlayer called with initial balance: {request.amount}");
 
+            if (request.amount <= 0)
+                return BadRequest(ApiResponse<BalanceUpdateResponse>.FailureResponse("Amount must be greater than zero."));
+
             // PlayerService will validate if balance is negative
             var result = await m_playerService.CreatePlayerAsync(request.amount);
             return this.ToApiResponse(result);

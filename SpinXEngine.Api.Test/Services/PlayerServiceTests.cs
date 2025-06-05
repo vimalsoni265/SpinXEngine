@@ -42,8 +42,8 @@ namespace SpinXEngine.Api.Test.Services
             var player = new Player { Id = playerId, Balance = initialBalance };
             var updatedPlayer = new Player { Id = playerId, Balance = expectedNewBalance };
 
-            m_mockPlayerRepository.Setup(x => x.GetByIdAsync(playerId))
-                                 .ReturnsAsync(player);
+            m_mockPlayerRepository.Setup(x => x.GetBalanceAsync(playerId))
+                                 .ReturnsAsync(initialBalance);
             m_mockPlayerRepository.Setup(x => x.UpdateBalance(playerId, expectedNewBalance))
                                  .ReturnsAsync(updatedPlayer);
 

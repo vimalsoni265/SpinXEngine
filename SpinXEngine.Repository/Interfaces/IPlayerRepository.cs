@@ -20,5 +20,10 @@ namespace SpinXEngine.Repository.Interfaces
         /// <param name="defaultBalance">The initial balance for the player (default: 0.00)</param>
         /// <returns>The newly created player</returns>
         Task<Player> CreatePlayerAsync(decimal defaultBalance = 0.00m);
+
+        /// <summary>
+        /// Asynchronously retrieves the current balance for the specified player.
+        /// </summary>
+        Task<decimal?> GetBalanceAsync(string playerId);
     }
 }

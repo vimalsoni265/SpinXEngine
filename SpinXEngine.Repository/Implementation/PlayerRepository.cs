@@ -46,7 +46,22 @@ namespace SpinXEngine.Repository.Implementation
             {
                 Balance = defaultBalance
             });
-        } 
+        }
+
+        /// <inheritdoc/>
+        public async Task<decimal?> GetBalanceAsync(string playerId)
+        {
+            var filter = Builders<Player>.Filter.Eq(p => p.Id, playerId);
+            var projection = Builders<Player>.Projection.Include(p => p.Balance);
+
+
+            var result = await m_collection.Find(filter).Project(p => (decimal?)p.Balance).FirstOrDefaultAsync();
+            if(result is null)
+            {
+                return null; // Player not found
+            }
+            return result.Value; // Return the balance or null if not found
+        }
 
         #endregion
     }

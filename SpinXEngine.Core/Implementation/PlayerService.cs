@@ -81,15 +81,15 @@ namespace SpinXEngine.Core.Implementation
                 return ServiceResult<BalanceUpdateResponse>.ValidationError("Amount must be greater than zero.");
 
             // 2. Check if player exists
-            var player = await m_playerRepository.GetByIdAsync(playerId);
-            if (player == null)
-                return ServiceResult<BalanceUpdateResponse>.NotFound("Player not found.");
+            var playerBalance = await m_playerRepository.GetBalanceAsync(playerId);
+            if(playerBalance is null)
+                return ServiceResult<BalanceUpdateResponse>.ValidationError("Player not found.");
 
             try
             {
                 // 3. Credit the balance (assumes this method returns updated player)
                 // Ensure amount is rounded to 2 decimal places
-                amount = Math.Round(player.Balance + amount, 2);
+                amount = Math.Round((decimal) playerBalance + amount, 2);
                 var updatedPlayer = await m_playerRepository.UpdateBalance(playerId, amount);
 
                 // 4. Create and return response
