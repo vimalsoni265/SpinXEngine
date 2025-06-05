@@ -69,3 +69,8 @@ The SpinXEngine uses a repository pattern for data access:
 
 Run the test projects to verify the functionality:
 - `SpinXEngine.Api.Test`
+
+
+## Flow Diagram
+![image](https://github.com/user-attachments/assets/4ef47595-425a-4bf2-aefd-0401f9e7bcc2)
+
